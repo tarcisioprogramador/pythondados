@@ -1,0 +1,121 @@
+business_key,business_id,nome,cnpj,categoria,categoria_key,cidade,estado,regiao,endereco,data_abertura,num_funcionarios,email,telefone
+1,BUS0001,Top Salão De Beleza Executivo,18196001338900,BELEZA,2,Goiânia,GO,CO,"Rua das Flores, 584",2006-12-21,70,contato@topsalãodebelezaexecutivo.com.br,(64) 4805-8359
+2,BUS0002,Doce Assessoria De Crédito Popular,54235116155922,SERVICOS,8,Manaus,AM,N,"Rua XV de Novembro, 836",2001-12-15,69,contato@doceassessoriadecréditopopular.com.br,(26) 6100-2291
+3,BUS0003,Global Banho & Tosa Vip,10341316475204,PET,5,Vitória,ES,SE,"Rua das Palmeiras, 373",2006-11-09,10,contato@globalbanhotosavip.com.br,(88) 8201-3803
+4,BUS0004,Prime Veterinária Me,,PET,5,Curitiba,PR,S,"Rua das Palmeiras, 227",2020-08-13,59,contato@primeveterináriame.com.br,(29) 5169-3287
+5,BUS0005,Nova Lava-Rápido Express,69653287101261,AUTOMOTIVO,1,Brasília,DF,CO,"Rua 7 de Setembro, 821",2021-07-20,9,contato@novalava-rápidoexpress.com.br,(60) 6126-8668
+6,BUS0006,Doce Banho & Tosa Premium,84514627048277,PET,5,Brasília,DF,CO,"Av. Rio Branco, 944",2003-11-10,65,contato@docebanhotosapremium.com.br,(88) 4629-3504
+7,BUS0007,Nova Boutique Mais,70154303911767,VAREJO,10,Brasília,DF,CO,"Av. Central, 788",2017-03-05,61,contato@novaboutiquemais.com.br,(81) 4352-5342
+8,BUS0008,Ideal Veterinária Executivo,65787133150920,PET,5,Recife,PE,NE,"Av. Rio Branco, 245",2018-04-01,10,contato@idealveterináriaexecutivo.com.br,(91) 3482-4750
+9,BUS0009,Master Salão De Beleza Premium,47382997376368,BELEZA,2,Vitória,ES,SE,"Av. Central, 109",2021-07-12,55,contato@mastersalãodebelezapremium.com.br,(63) 6825-1887
+10,BUS0010,Casa Salão De Beleza Vip,13338726247313,BELEZA,2,Recife,PE,NE,"Av. Central, 463",2017-02-02,70,contato@casasalãodebelezavip.com.br,(12) 3764-4872
+11,BUS0011,Real Studio De Pilates Executivo,02606474687234,SAUDE,7,Fortaleza,CE,NE,"Av. Paulista, 313",2006-01-19,70,contato@realstudiodepilatesexecutivo.com.br,(18) 9127-6138
+12,BUS0012,Casa Escola De Idiomas Me,81219136193990,RESTAURANTES,6,Campinas,SP,SE,"Rua Sete de Abril, 50",2019-02-14,75,contato@realpadariapopular.com.br,(83) 7282-6183
+13,BUS0013,Casa Consultoria De Ti Vip,62475107991182,TECNOLOGIA,9,Florianópolis,SC,S,"Av. Rio Branco, 228",2016-05-05,45,contato@casaconsultoriadetivip.com.br,(19) 5001-7054
+14,BUS0014,Nova Consultoria De Ti Express,80841241182454,TECNOLOGIA,9,Fortaleza,CE,NE,"Rua XV de Novembro, 629",2006-12-11,27,contato@novaconsultoriadetiexpress.com.br,(98) 8195-5325
+15,BUS0015,Doce Banho & Tosa Premium,40052427868077,PET,5,Porto Alegre,RS,S,"Av. Central, 87",2022-03-18,5,contato@docebanhotosapremium.com.br,(58) 7771-3426
+16,BUS0016,Top Escola De Idiomas Vip,05331586923205,EDUCACAO,4,São Paulo,SP,SE,"Rua 7 de Setembro, 912",2013-01-06,43,contato@topescoladeidiomasvip.com.br,(63) 9571-5065
+17,BUS0017,Casa Consultoria De Ti Premium,07337543303639,TECNOLOGIA,9,Manaus,AM,N,"Rua das Palmeiras, 295",2002-05-12,66,contato@casaconsultoriadetipremium.com.br,(62) 8566-9785
+18,BUS0018,Top Boutique Popular,40196556981609,VAREJO,10,Rio de Janeiro,RJ,SE,"Rua Sete de Abril, 204",2008-01-23,56,contato@topboutiquepopular.com.br,(11) 7259-9821
+19,BUS0019,Bom Auto Peças Vip,14846564823649,AUTOMOTIVO,1,Recife,PE,NE,"Av. Brasil, 703",2023-03-20,73,contato@bomautopeçasvip.com.br,(49) 6326-9977
+20,BUS0020,Ideal Pizzaria Ltda,95777387214837,RESTAURANTES,6,Porto Alegre,RS,S,"Rua Sete de Abril, 353",2002-04-22,40,contato@idealpizzarialtda.com.br,(39) 9607-4262
+21,BUS0021,Ideal Academia Me,17693676320105,SAUDE,7,São Paulo,SP,SE,"Av. Brasil, 234",2005-12-17,60,contato@idealacademiame.com.br,(17) 7566-5082
+22,BUS0022,Real Barbearia Vip,79868727743440,BELEZA,2,Belo Horizonte,MG,SE,"Av. Rio Branco, 506",2020-04-09,57,contato@realbarbeariavip.com.br,(20) 8845-5681
+23,BUS0023,Master Auto Peças Premium,36231665876091,AUTOMOTIVO,1,Salvador,BA,NE,"Av. Paulista, 862",2013-07-25,75,contato@masterautopeçaspremium.com.br,(13) 9271-7232
+24,BUS0024,Top Imobiliária Ltda,68893734670666,CASA,3,Salvador,BA,NE,"Rua das Palmeiras, 694",2021-07-24,22,contato@topimobiliárialtda.com.br,(70) 4045-9751
+25,BUS0025,Alfa Hamburgueria Mais,62720465375577,RESTAURANTES,6,Campinas,SP,SE,"Av. Brasil, 294",2024-07-09,11,contato@alfahamburgueriamais.com.br,(71) 3158-9837
+26,BUS0026,Global Pizzaria Premium,00330923271997,RESTAURANTES,6,Curitiba,PR,S,"Av. Paulista, 486",2022-05-25,48,contato@globalpizzariapremium.com.br,(32) 7963-2876
+27,BUS0027,Alfa Studio De Pilates Mais,96631931491985,SAUDE,7,Rio de Janeiro,RJ,SE,"Rua das Flores, 365",2017-07-22,48,contato@alfastudiodepilatesmais.com.br,(19) 7144-6590
+28,BUS0028,Real Hamburgueria Premium,57262849877656,RESTAURANTES,6,Vitória,ES,SE,"Rua Sete de Abril, 284",2010-04-27,12,contato@realhamburgueriapremium.com.br,(46) 6692-4995
+29,BUS0029,Global Pinturas Ltda,75273545494823,CASA,3,Campinas,SP,SE,"Rua das Flores, 539",2006-02-08,53,contato@globalpinturasltda.com.br,(73) 7548-4937
+30,BUS0030,Real Pinturas Me,14363495788523,CASA,3,Goiânia,GO,CO,"Av. Brasil, 773",2017-06-12,59,contato@realpinturasme.com.br,(45) 5511-5118
+31,BUS0031,Ideal Oficina Mecânica Vip,82337498941324,AUTOMOTIVO,1,Goiânia,GO,CO,"Rua XV de Novembro, 242",2011-03-10,2,contato@idealoficinamecânicavip.com.br,(79) 4036-5494
+32,BUS0032,Top Padaria Popular,71094777520457,RESTAURANTES,6,Brasília,DF,CO,"Rua do Comércio, 126",2002-07-16,10,contato@toppadariapopular.com.br,(84) 8156-1878
+33,BUS0033,Alfa Academia Express,31869993867780,SAUDE,7,Manaus,AM,N,"Rua XV de Novembro, 890",2018-07-10,73,contato@alfaacademiaexpress.com.br,(90) 3493-2625
+34,BUS0034,Top Lava-Rápido Premium,28120679740370,AUTOMOTIVO,1,Curitiba,PR,S,"Rua XV de Novembro, 733",2009-12-28,59,contato@toplava-rápidopremium.com.br,(20) 8631-4824
+35,BUS0035,Global Desenvolvimento Web Executivo,83242102499439,TECNOLOGIA,9,Campinas,SP,SE,"Rua do Comércio, 137",2014-12-10,52,contato@globaldesenvolvimentowebexecutivo.com.br,(45) 7099-9847
+36,BUS0036,Alfa Escritório De Arquitetura Mais,59401399049091,CASA,3,Rio de Janeiro,RJ,SE,"Rua 7 de Setembro, 491",2016-11-15,36,contato@alfaescritóriodearquiteturamais.com.br,(34) 7795-8141
+37,BUS0037,Master Imobiliária Ltda,12567468071596,CASA,3,Fortaleza,CE,NE,"Rua XV de Novembro, 341",2003-07-28,66,contato@masterimobiliárialtda.com.br,(11) 8387-9889
+38,BUS0038,Ideal Escritório De Arquitetura Vip,77034824771022,CASA,3,São Paulo,SP,SE,"Rua Sete de Abril, 828",2007-12-06,40,contato@idealescritóriodearquiteturavip.com.br,(81) 3112-7684
+39,BUS0039,Bom Salão De Beleza Me,27484677378274,BELEZA,2,Vitória,ES,SE,"Av. Brasil, 205",2019-09-24,18,contato@bomsalãodebelezame.com.br,(19) 5263-7798
+40,BUS0040,Doce Farmácia Express,99727875588626,VAREJO,10,Porto Alegre,RS,S,"Rua do Comércio, 965",2010-04-23,31,contato@docefarmáciaexpress.com.br,(84) 6137-4826
+41,BUS0041,Casa Escola De Idiomas Me,66270289517110,EDUCACAO,4,Salvador,BA,NE,"Av. Rio Branco, 942",2014-01-24,19,contato@casaescoladeidiomasme.com.br,(63) 8363-3529
+42,BUS0042,Top Barbearia Vip,61586578091374,BELEZA,2,Manaus,AM,N,"Rua XV de Novembro, 242",2023-02-14,13,contato@topbarbeariavip.com.br,(92) 8766-2646
+43,BUS0043,Top Imobiliária Mais,04556238692280,CASA,3,Goiânia,GO,CO,"Rua 7 de Setembro, 90",2019-07-20,31,contato@topimobiliáriamais.com.br,(74) 7777-3344
+44,BUS0044,Top Auto Peças Me,07482175946459,AUTOMOTIVO,1,Florianópolis,SC,S,"Rua do Comércio, 875",2009-04-13,62,contato@topautopeçasme.com.br,(24) 4943-7248
+45,BUS0045,Top Assessoria De Crédito Express,64090974395352,SERVICOS,8,Campinas,SP,SE,"Av. Paulista, 645",2008-11-25,18,contato@topassessoriadecréditoexpress.com.br,(91) 3795-1645
+46,BUS0046,Alfa Loja De Informática Vip,14562328588413,TECNOLOGIA,9,São Paulo,SP,SE,"Rua 7 de Setembro, 273",2015-05-24,44,contato@alfalojadeinformáticavip.com.br,(25) 6836-2233
+47,BUS0047,Global Academia Ltda,85160481754907,SAUDE,7,Vitória,ES,SE,"Av. Brasil, 852",2020-06-04,30,contato@globalacademialtda.com.br,(71) 3205-6374
+48,BUS0048,Bom Contabilidade Me,46120047113806,SERVICOS,8,Florianópolis,SC,S,"Rua 7 de Setembro, 407",2014-06-22,70,contato@bomcontabilidademe.com.br,(64) 7811-3531
+49,BUS0049,Real Reforço Escolar Ltda,40537735158559,EDUCACAO,4,Rio de Janeiro,RJ,SE,"Rua das Flores, 417",2008-04-04,59,contato@realreforçoescolarltda.com.br,(22) 8429-4475
+50,BUS0050,Master Contabilidade Executivo,93183933529011,SERVICOS,8,São Paulo,SP,SE,"Rua XV de Novembro, 889",2004-03-18,33,contato@mastercontabilidadeexecutivo.com.br,(33) 3900-1422
+51,BUS0051,Ideal Academia Vip,40268117758906,SAUDE,7,Salvador,BA,NE,"Av. Central, 472",2016-04-20,6,contato@idealacademiavip.com.br,(95) 7271-5941
+52,BUS0052,Doce Pinturas Me,61771159212460,CASA,3,São Paulo,SP,SE,"Rua Sete de Abril, 658",2018-09-23,42,contato@docepinturasme.com.br,(59) 7893-9692
+53,BUS0053,Alfa Loja De Informática Ltda,18367365766117,TECNOLOGIA,9,Brasília,DF,CO,"Rua das Palmeiras, 447",2010-11-09,48,contato@alfalojadeinformáticaltda.com.br,(30) 8626-8770
+54,BUS0054,Bom Salão De Beleza Premium,52809885165681,BELEZA,2,Vitória,ES,SE,"Rua das Flores, 304",2019-05-12,14,contato@bomsalãodebelezapremium.com.br,(84) 7156-4485
+55,BUS0055,Ideal Clínica De Estética Premium,85149368998030,SAUDE,7,Fortaleza,CE,NE,"Rua Sete de Abril, 961",2021-12-09,4,contato@idealclínicadeestéticapremium.com.br,(34) 5238-6062
+56,BUS0056,Prime Mercado Popular,61201836675260,VAREJO,10,São Paulo,SP,SE,"Rua das Palmeiras, 329",2023-06-25,73,contato@primemercadopopular.com.br,(87) 3695-1861
+57,BUS0057,Alfa Academia Mais,47679764381597,SAUDE,7,Manaus,AM,N,"Av. Brasil, 123",2009-11-22,76,contato@alfaacademiamais.com.br,(73) 7316-6053
+58,BUS0058,Alfa Restaurante Mais,43244510762203,RESTAURANTES,6,Recife,PE,NE,"Av. Brasil, 555",2022-04-17,72,contato@alfarestaurantemais.com.br,(96) 9604-6802
+59,BUS0059,Casa Barbearia Mais,71596966416019,BELEZA,2,Vitória,ES,SE,"Rua das Palmeiras, 185",2019-08-27,47,contato@casabarbeariamais.com.br,(22) 6577-2734
+60,BUS0060,Central Auto Peças Premium,45352181883543,AUTOMOTIVO,1,Campinas,SP,SE,"Rua das Palmeiras, 754",2020-03-08,14,contato@centralautopeçaspremium.com.br,(29) 5096-4232
+61,BUS0061,Global Clínica De Estética Premium,77997995527148,SAUDE,7,Belo Horizonte,MG,SE,"Rua do Comércio, 462",2020-05-26,36,contato@globalclínicadeestéticapremium.com.br,(86) 3460-6766
+62,BUS0062,Real Pet Shop Me,54119986798004,PET,5,Porto Alegre,RS,S,"Rua do Comércio, 940",2018-11-07,42,contato@realpetshopme.com.br,(88) 6896-9214
+63,BUS0063,Bom Academia Vip,18203778892544,SAUDE,7,Fortaleza,CE,NE,"Rua das Palmeiras, 949",2009-07-14,44,contato@bomacademiavip.com.br,(97) 7897-1857
+64,BUS0064,Bom Boutique Ltda,92519254629142,VAREJO,10,Salvador,BA,NE,"Rua XV de Novembro, 582",2012-11-26,43,contato@bomboutiqueltda.com.br,(27) 8489-9624
+65,BUS0065,Central Studio De Sobrancelhas Vip,42357332214135,BELEZA,2,Florianópolis,SC,S,"Av. Rio Branco, 799",2017-12-17,5,contato@centralstudiodesobrancelhasvip.com.br,(95) 5758-3147
+66,BUS0066,Prime Assessoria De Crédito Popular,92706537947308,SERVICOS,8,Belo Horizonte,MG,SE,"Av. Rio Branco, 254",2009-08-27,25,contato@primeassessoriadecréditopopular.com.br,(58) 8556-8218
+67,BUS0067,Central Escritório De Arquitetura Ltda,39240758181412,CASA,3,Manaus,AM,N,"Av. Central, 791",2005-05-15,66,contato@centralescritóriodearquiteturaltda.com.br,(29) 9807-8167
+68,BUS0068,Real Salão De Beleza Vip,60685361530530,BELEZA,2,Vitória,ES,SE,"Av. Central, 869",2022-11-11,19,contato@realsalãodebelezavip.com.br,(28) 3313-5700
+69,BUS0069,Prime Pinturas Me,01043289861429,CASA,3,Vitória,ES,SE,"Av. Paulista, 318",2003-01-08,54,contato@primepinturasme.com.br,(92) 9503-8489
+70,BUS0070,Real Salão De Beleza Mais,93246095396266,BELEZA,2,Vitória,ES,SE,"Av. Central, 546",2011-02-17,70,contato@realsalãodebelezamais.com.br,(75) 9442-9316
+71,BUS0071,Real Pet Shop Mais,54051531952001,PET,5,Recife,PE,NE,"Rua das Palmeiras, 569",2010-11-06,60,contato@realpetshopmais.com.br,(72) 8175-3986
+72,BUS0072,Real Academia Mais,03054868740360,SAUDE,7,Goiânia,GO,CO,"Rua XV de Novembro, 375",2024-01-28,43,contato@realacademiamais.com.br,(45) 4019-7029
+73,BUS0073,Real Curso Técnico Ltda,27758416169205,EDUCACAO,4,Goiânia,GO,CO,"Av. Rio Branco, 310",2010-02-03,42,contato@realcursotécnicoltda.com.br,(95) 5421-6021
+74,BUS0074,Central Escritório De Arquitetura Ltda,57059640165860,CASA,3,Goiânia,GO,CO,"Rua 7 de Setembro, 985",2000-03-28,78,contato@centralpinturaspopular.com.br,(97) 9400-8179
+75,BUS0075,Ideal Restaurante Vip,90927557192803,RESTAURANTES,6,Rio de Janeiro,RJ,SE,"Rua das Palmeiras, 417",2010-11-09,32,contato@idealrestaurantevip.com.br,(25) 3212-4048
+76,BUS0076,Nova Pinturas Premium,47394731217296,CASA,3,Recife,PE,NE,"Rua do Comércio, 99",2021-06-22,45,contato@novapinturaspremium.com.br,(19) 7505-9882
+77,BUS0077,Prime Loja De Informática Popular,83132370589570,TECNOLOGIA,9,Vitória,ES,SE,"Rua do Comércio, 832",2017-03-20,12,contato@primelojadeinformáticapopular.com.br,(19) 5533-7523
+78,BUS0078,Central Pinturas Premium,51778528922601,CASA,3,Recife,PE,NE,"Av. Rio Branco, 942",2001-02-17,20,contato@centralpinturaspremium.com.br,(49) 4348-3653
+79,BUS0079,Master Farmácia Express,43842498182909,VAREJO,10,Curitiba,PR,S,"Rua Sete de Abril, 167",2005-11-20,78,contato@masterfarmáciaexpress.com.br,(54) 9902-1674
+80,BUS0080,Global Padaria Express,96907844736447,RESTAURANTES,6,São Paulo,SP,SE,"Rua do Comércio, 84",2022-01-06,57,contato@globalpadariaexpress.com.br,(64) 6966-8609
+81,BUS0081,Prime Auto Peças Vip,55625881537105,AUTOMOTIVO,1,Campinas,SP,SE,"Rua XV de Novembro, 470",2007-03-04,7,contato@primeautopeçasvip.com.br,(48) 6146-7850
+82,BUS0082,Master Oficina Mecânica Vip,27877470168702,AUTOMOTIVO,1,Vitória,ES,SE,,2018-06-02,7,contato@masteroficinamecânicavip.com.br,(47) 7054-8710
+83,BUS0083,Bom Desenvolvimento Web Ltda,45650609835807,TECNOLOGIA,9,São Paulo,SP,SE,"Rua XV de Novembro, 85",2012-09-15,71,contato@bomdesenvolvimentowebltda.com.br,(46) 9760-2946
+84,BUS0084,Master Academia Vip,52398680002514,SAUDE,7,Recife,PE,NE,"Rua do Comércio, 541",2014-03-20,66,contato@masteracademiavip.com.br,(28) 5686-6218
+85,BUS0085,Casa Studio De Pilates Express,88879470551696,SAUDE,7,Campinas,SP,SE,"Rua Sete de Abril, 325",2023-12-21,4,contato@casastudiodepilatesexpress.com.br,(87) 6887-5350
+86,BUS0086,Casa Consultoria Financeira Mais,28962309130719,SERVICOS,8,Curitiba,PR,S,"Rua das Palmeiras, 438",2004-07-23,27,contato@casaconsultoriafinanceiramais.com.br,(63) 7110-8726
+87,BUS0087,Ideal Restaurante Vip,78652785854971,RESTAURANTES,6,Brasília,DF,CO,"Rua do Comércio, 206",2007-05-18,39,contato@idealrestaurantevip.com.br,(39) 5438-5735
+88,BUS0088,Real Lava-Rápido Vip,84419866524031,AUTOMOTIVO,1,Goiânia,GO,CO,"Rua XV de Novembro, 988",2022-02-12,57,contato@reallava-rápidovip.com.br,(94) 5100-8849
+89,BUS0089,Nova Oficina Mecânica Express,42199330833060,AUTOMOTIVO,1,Vitória,ES,SE,"Av. Central, 433",2010-12-16,13,contato@novaoficinamecânicaexpress.com.br,(98) 9314-3252
+90,BUS0090,Prime Sushi Ltda,77345401938092,RESTAURANTES,6,Niterói,RJ,SE,"Rua 7 de Setembro, 437",2005-01-27,51,contato@primesushiltda.com.br,(74) 4526-5742
+91,BUS0091,Alfa Padaria Premium,54788728743100,RESTAURANTES,6,Porto Alegre,RS,S,"Rua das Palmeiras, 176",2023-08-21,33,contato@alfapadariapremium.com.br,(34) 3115-6523
+92,BUS0092,Ideal Desenvolvimento Web Popular,,TECNOLOGIA,9,Florianópolis,SC,S,"Rua das Flores, 277",2012-04-15,35,contato@idealdesenvolvimentowebpopular.com.br,(53) 5473-1187
+93,BUS0093,Casa Desenvolvimento Web Executivo,17426841459314,TECNOLOGIA,9,Salvador,BA,NE,"Av. Paulista, 990",2004-08-05,59,contato@casadesenvolvimentowebexecutivo.com.br,(88) 6060-7813
+94,BUS0094,Nova Banho & Tosa Executivo,91878519108837,PET,5,Manaus,AM,N,"Av. Paulista, 596",2017-03-06,42,contato@novabanhotosaexecutivo.com.br,(77) 6619-2904
+95,BUS0095,Real Lava-Rápido Premium,70728679087482,AUTOMOTIVO,1,Campinas,SP,SE,"Rua das Flores, 415",2008-01-24,28,contato@reallava-rápidopremium.com.br,(85) 3598-1742
+96,BUS0096,Bom Curso Técnico Mais,17046226567606,EDUCACAO,4,Goiânia,GO,CO,"Av. Brasil, 92",2021-11-28,70,contato@bomcursotécnicomais.com.br,(28) 8353-6697
+97,BUS0097,Central Salão De Beleza Popular,,BELEZA,2,Brasília,DF,CO,"Rua das Palmeiras, 168",2008-04-24,15,contato@centralsalãodebelezapopular.com.br,(15) 9631-7868
+98,BUS0098,Ideal Contabilidade Premium,07903067383092,SERVICOS,8,Curitiba,PR,S,"Rua 7 de Setembro, 525",2009-04-27,74,contato@idealcontabilidadepremium.com.br,(51) 7730-6253
+99,BUS0099,Prime Auto Peças Executivo,40892687056862,AUTOMOTIVO,1,Niterói,RJ,SE,"Rua das Palmeiras, 723",2013-07-05,39,contato@primeautopeçasexecutivo.com.br,(59) 4506-9813
+100,BUS0100,Ideal Imobiliária Express,27086688263482,CASA,3,Vitória,ES,SE,"Av. Paulista, 348",2020-02-15,48,contato@idealimobiliáriaexpress.com.br,(22) 7387-4120
+101,BUS0101,Global Pizzaria Mais,39837354033134,RESTAURANTES,6,Recife,PE,NE,"Rua do Comércio, 946",2007-12-20,27,contato@globalpizzariamais.com.br,(61) 4960-6269
+102,BUS0102,Nova Loja De Informática Vip,58771753556022,TECNOLOGIA,9,Fortaleza,CE,NE,"Rua Sete de Abril, 894",2007-12-05,3,contato@novalojadeinformáticavip.com.br,(44) 7532-7841
+103,BUS0103,Master Consultoria De Ti Executivo,37854777252289,TECNOLOGIA,9,Curitiba,PR,S,"Av. Rio Branco, 510",2005-09-21,8,contato@masterconsultoriadetiexecutivo.com.br,(78) 3277-2217
+104,BUS0104,Prime Padaria Executivo,20387509977000,RESTAURANTES,6,Recife,PE,NE,"Rua das Flores, 554",2017-07-01,3,contato@primepadariaexecutivo.com.br,(78) 8916-5501
+105,BUS0105,Nova Banho & Tosa Ltda,21182339845428,PET,5,São Paulo,SP,SE,"Av. Brasil, 90",2011-07-15,73,contato@novabanhotosaltda.com.br,(42) 8711-4700
+106,BUS0106,Bom Desenvolvimento Web Mais,66870021765954,TECNOLOGIA,9,Vitória,ES,SE,"Av. Central, 926",2016-01-08,28,contato@bomdesenvolvimentowebmais.com.br,(99) 7643-8790
+107,BUS0107,Bom Consultoria De Ti Express,90250392614200,TECNOLOGIA,9,Niterói,RJ,SE,"Rua Sete de Abril, 256",2018-07-22,70,contato@bomconsultoriadetiexpress.com.br,(53) 6144-3292
+108,BUS0108,Master Studio De Sobrancelhas Mais,31599965047725,BELEZA,2,Goiânia,GO,CO,"Av. Paulista, 374",2017-07-14,24,contato@masterstudiodesobrancelhasmais.com.br,(98) 7799-7227
+109,BUS0109,Ideal Studio De Sobrancelhas Premium,26265511047516,BELEZA,2,Porto Alegre,RS,S,"Rua XV de Novembro, 114",2004-02-06,56,contato@idealstudiodesobrancelhaspremium.com.br,(68) 7562-9395
+110,BUS0110,Bom Escola De Idiomas Vip,99560466183947,EDUCACAO,4,São Paulo,SP,SE,"Av. Rio Branco, 183",2021-07-06,18,contato@bomescoladeidiomasvip.com.br,(45) 5466-5397
+111,BUS0111,Prime Imobiliária Ltda,47154379937141,CASA,3,Rio de Janeiro,RJ,SE,"Rua 7 de Setembro, 321",2000-07-11,80,contato@primeimobiliárialtda.com.br,(59) 9586-6399
+112,BUS0112,Global Escritório De Arquitetura Popular,93752654793551,CASA,3,Recife,PE,NE,"Av. Brasil, 297",2012-06-04,73,contato@globalescritóriodearquiteturapopular.com.br,(36) 7851-9939
+113,BUS0113,Nova Clínica De Estética Mais,73741672434202,SAUDE,7,Manaus,AM,N,"Av. Brasil, 818",2012-02-15,77,contato@novaclínicadeestéticamais.com.br,(72) 7769-7566
+114,BUS0114,Casa Veterinária Ltda,58911352909632,PET,5,Niterói,RJ,SE,"Rua das Palmeiras, 998",2013-02-01,13,contato@casaveterinárialtda.com.br,(44) 4818-9366
+115,BUS0115,Casa Veterinária Executivo,67982507146104,PET,5,Campinas,SP,SE,"Av. Central, 861",2023-03-12,40,contato@casaveterináriaexecutivo.com.br,(54) 6730-4389
+116,BUS0116,Real Banho & Tosa Premium,75140105123816,PET,5,Salvador,BA,NE,"Rua 7 de Setembro, 575",2005-06-18,55,contato@realbanhotosapremium.com.br,(70) 4899-7636
+117,BUS0117,Global Academia Ltda,93796603341973,SAUDE,7,Florianópolis,SC,S,"Av. Central, 828",2017-03-12,42,contato@globalacademialtda.com.br,(36) 6748-2867
+118,BUS0118,Real Desenvolvimento Web Vip,96915579249963,TECNOLOGIA,9,Vitória,ES,SE,"Av. Central, 698",2004-06-04,31,contato@realdesenvolvimentowebvip.com.br,(50) 3958-3999
+119,BUS0119,Nova Farmácia Ltda,29662782827426,VAREJO,10,Belo Horizonte,MG,SE,"Rua 7 de Setembro, 201",2010-08-20,7,contato@novafarmácialtda.com.br,(56) 3078-8939
+120,BUS0120,Central Academia Me,76772190340491,SAUDE,7,Vitória,ES,SE,"Av. Paulista, 560",2009-03-25,59,contato@centralacademiame.com.br,(83) 9082-9115

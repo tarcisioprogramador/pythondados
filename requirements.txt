@@ -1,0 +1,22 @@
+# ============================================================
+# DataPipeline Pro — Dependências do projeto
+# Instalação: pip install -r requirements.txt
+# ============================================================
+
+# --- Manipulação de dados ---
+pandas>=2.2
+numpy>=1.26
+
+# --- Banco de dados ---
+SQLAlchemy>=2.0
+psycopg[binary]>=3.1        # Driver PostgreSQL (v3)
+
+# --- Dashboard ---
+streamlit>=1.36
+plotly>=5.22
+
+# --- Configuração ---
+python-dotenv>=1.0
+
+# --- Desenvolvimento / Testes ---
+pytest>=8.0

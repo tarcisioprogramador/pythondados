@@ -1,0 +1,275 @@
+{
+  "gerado_em": "2026-08-03T19:16:21",
+  "resumo": {
+    "antes": {
+      "total": 16,
+      "pass": 10,
+      "fail": 6
+    },
+    "depois": {
+      "total": 16,
+      "pass": 16,
+      "fail": 0
+    }
+  },
+  "antes": [
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 123 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "nome",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 123 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "cnpj",
+      "status": "PASS",
+      "valor": "0.81%",
+      "limite": "≤ 5%",
+      "detalhe": "1 de 123 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "categoria",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 123 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "cidade",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 123 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "estado",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 123 registros"
+    },
+    {
+      "check": "Unicidade (sem duplicados)",
+      "coluna": "business_id",
+      "status": "FAIL",
+      "valor": "3",
+      "limite": "0",
+      "detalhe": "coluna business_id"
+    },
+    {
+      "check": "Formato (CNPJ válido)",
+      "coluna": "cnpj",
+      "status": "FAIL",
+      "valor": "2",
+      "limite": "0",
+      "detalhe": "CNPJs com dígito verificador incorreto"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "transaction_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 369186 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 369186 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "data_venda",
+      "status": "PASS",
+      "valor": "0.99%",
+      "limite": "≤ 5%",
+      "detalhe": "3672 de 369186 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "valor",
+      "status": "PASS",
+      "valor": "0.50%",
+      "limite": "≤ 5%",
+      "detalhe": "1839 de 369186 registros"
+    },
+    {
+      "check": "Unicidade (sem duplicados)",
+      "coluna": "transaction_id",
+      "status": "FAIL",
+      "valor": "5",
+      "limite": "0",
+      "detalhe": "coluna transaction_id"
+    },
+    {
+      "check": "Consistência (sem negativos)",
+      "coluna": "valor_num",
+      "status": "FAIL",
+      "valor": "5480",
+      "limite": "0",
+      "detalhe": "valores negativos em valor_num"
+    },
+    {
+      "check": "Faixa válida (1-5)",
+      "coluna": "avaliacao",
+      "status": "FAIL",
+      "valor": "7200",
+      "limite": "0",
+      "detalhe": "valores fora de [1, 5]"
+    },
+    {
+      "check": "Integridade referencial",
+      "coluna": "business_id",
+      "status": "FAIL",
+      "valor": "1843",
+      "limite": "0",
+      "detalhe": "transações sem negócio correspondente"
+    }
+  ],
+  "depois": [
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 120 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "nome",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 120 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "cnpj",
+      "status": "PASS",
+      "valor": "2.50%",
+      "limite": "≤ 5%",
+      "detalhe": "3 de 120 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "categoria",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 120 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "cidade",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 120 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "estado",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 120 registros"
+    },
+    {
+      "check": "Unicidade (sem duplicados)",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "coluna business_id"
+    },
+    {
+      "check": "Formato (CNPJ válido)",
+      "coluna": "cnpj",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "CNPJs com dígito verificador incorreto"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "transaction_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 356447 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 356447 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "data_venda",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 356447 registros"
+    },
+    {
+      "check": "Completude (sem nulos)",
+      "coluna": "valor",
+      "status": "PASS",
+      "valor": "0.00%",
+      "limite": "≤ 5%",
+      "detalhe": "0 de 356447 registros"
+    },
+    {
+      "check": "Unicidade (sem duplicados)",
+      "coluna": "transaction_id",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "coluna transaction_id"
+    },
+    {
+      "check": "Consistência (sem negativos)",
+      "coluna": "valor_num",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "valores negativos em valor_num"
+    },
+    {
+      "check": "Faixa válida (1-5)",
+      "coluna": "avaliacao",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "valores fora de [1, 5]"
+    },
+    {
+      "check": "Integridade referencial",
+      "coluna": "business_id",
+      "status": "PASS",
+      "valor": "0",
+      "limite": "0",
+      "detalhe": "transações sem negócio correspondente"
+    }
+  ]
+}
