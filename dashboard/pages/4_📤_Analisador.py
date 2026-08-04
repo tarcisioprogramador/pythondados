@@ -100,7 +100,8 @@ if df is None:
 analise = gerar_analise(df)
 resumo = analise["resumo"]
 
-pct_nulos = resumo["nulos_total"] / (resumo["linhas"] * max(resumo["colunas"], 1)) * 100
+den = resumo["linhas"] * max(resumo["colunas"], 1)
+pct_nulos = resumo["nulos_total"] / den * 100 if den else 0.0
 n_numericas = len(analise["numericas"])
 n_categoricas = len(analise["categorias"])
 n_datas = len(analise["datas"])
@@ -155,7 +156,7 @@ if analise["numericas"]:
             hovertemplate="%{x} × %{y}: <b>%{z:.2f}</b><extra></extra>",
         ))
         layout_base(fig, "🔗 Matriz de correlação entre variáveis numéricas", altura=420)
-        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     opcoes_num = [n["coluna"] for n in analise["numericas"]]
     sel_num = st.selectbox("Selecione a coluna numérica", opcoes_num, key="sel_num")
@@ -174,7 +175,7 @@ if analise["numericas"]:
         )
         layout_base(fig, f"Histograma de {sel_num}", altura=380)
         fig.update_xaxes(title=sel_num)
-        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with c2:
         st.markdown("##### 📐 Estatísticas")
@@ -219,7 +220,7 @@ if analise["categorias"]:
         )
         fig.update_coloraxes(showscale=False)
         layout_base(fig, f"Top valores de {sel_cat}", altura=380)
-        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with c2:
         fig = px.pie(
@@ -230,7 +231,7 @@ if analise["categorias"]:
             hovertemplate="%{label}<br><b>%{value:,}</b> · %{percent}<extra></extra>",
         )
         layout_base(fig, "Distribuição", altura=380)
-        st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # ---------------------------------------------------------------------------
 # Colunas de data
@@ -249,7 +250,7 @@ if analise["datas"]:
         hovertemplate="%{x}<br><b>%{y:,}</b> registros<extra></extra>",
     )
     layout_base(fig, f"Volume de registros ao longo do tempo ({sel_data})", altura=380)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
     "<div class='footer-note' style='font-family:JetBrains Mono,monospace;font-size:12px;color:#475569;"

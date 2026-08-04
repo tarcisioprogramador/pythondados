@@ -87,6 +87,23 @@ p, li { color: #cbd5e1; }
 .painel-card .d { font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 10px; }
 
 .footer { margin-top: 54px; padding-top: 18px; border-top: 1px solid #1e293b; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #475569; text-align: center; }
+
+/* Mobile: landing page */
+@media (max-width: 48em) {
+    .hero-titulo { font-size: 28px !important; line-height: 1.15 !important; }
+    .hero-sub { font-size: 14px !important; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat .v { font-size: 15px !important; }
+    .stat .l { font-size: 10px !important; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .camadas { grid-template-columns: 1fr; }
+    .secao-titulo { font-size: 20px !important; }
+}
+@media (max-width: 30em) {
+    .hero-titulo { font-size: 24px !important; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr; }
+}
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
 injetar_css_mobile()

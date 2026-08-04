@@ -245,7 +245,7 @@ def chip(texto: str, cor: str = "#22D3EE") -> str:
 # CSS responsivo (mobile) — compartilhado por todas as páginas
 # ---------------------------------------------------------------------------
 CSS_MOBILE = """
-/* Empilha as colunas do Streamlit em telas pequenas */
+/* ── Tablet (até 768px / 48em) ──────────────────────────────── */
 @media (max-width: 48em) {
     [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
     [data-testid="stHorizontalBlock"] > div { min-width: 100% !important; width: 100% !important; }
@@ -255,26 +255,63 @@ CSS_MOBILE = """
         padding-right: 1rem !important;
         padding-top: 1rem !important;
     }
-    .hero-titulo { font-size: 30px !important; }
-    .hero-sub { font-size: 14.5px !important; }
-    .topbar { margin-bottom: 22px; }
+    .hero-titulo { font-size: 28px !important; line-height: 1.15 !important; }
+    .hero-sub { font-size: 14px !important; }
+    .topbar { margin-bottom: 18px; }
 
-    /* Grades de cards: 4-6 colunas viram 2 */
-    .stats-grid, .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .feature-grid, .camadas { grid-template-columns: 1fr; }
-    .kpi-value { font-size: 17px !important; }
+    /* KPIs: 5 colunas → 3 colunas */
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .kpi-card { padding: 12px 14px 10px; }
+    .kpi-label { font-size: 10px !important; letter-spacing: 1.2px !important; }
+    .kpi-value { font-size: 16px !important; }
+    .kpi-sub { font-size: 11px !important; }
+
+    /* Stats grid: 4 colunas → 2 colunas */
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .stat .v { font-size: 15px !important; }
-    .secao-titulo { font-size: 21px !important; }
-    .secao { font-size: 16px !important; }
+    .stat .l { font-size: 10px !important; }
+
+    .feature-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .camadas { grid-template-columns: 1fr; }
+    .secao-titulo { font-size: 20px !important; }
+    .secao { font-size: 15px !important; }
+    .insight { font-size: 12.5px !important; padding: 10px 14px !important; }
     .cta { flex-direction: column; }
     .footer { font-size: 10.5px; }
     .check-row { font-size: 12px; }
-    .empty-box { padding: 28px 14px !important; }
+    .empty-box { padding: 24px 12px !important; }
+
+    /* Gráficos Plotly: menor altura em tablet */
+    .stPlotlyChart { height: auto !important; }
 }
 
-/* Telas muito estreitas: 1 coluna só */
+/* ── Mobile (até 480px / 30em) ──────────────────────────────── */
 @media (max-width: 30em) {
-    .stats-grid, .kpi-grid { grid-template-columns: 1fr; }
+    .block-container {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi-card { padding: 10px 12px 8px; }
+    .kpi-value { font-size: 14px !important; }
+    .kpi-label { font-size: 9px !important; }
+
+    .stats-grid { grid-template-columns: 1fr; }
+    .stat .v { font-size: 14px !important; }
+
+    .feature-grid { grid-template-columns: 1fr; }
+    .hero-titulo { font-size: 24px !important; }
+    .hero-sub { font-size: 13px !important; }
+
+    /* Gráficos: touch otimizado */
+    .stPlotlyChart { touch-action: manipulation; }
+
+    /* Tabelas e elementos largos */
+    [data-testid="stDataFrame"] { font-size: 12px !important; }
+
+    .check-row { font-size: 11px; padding: 8px !important; }
+    .footer { font-size: 9.5px; padding: 10px !important; }
 }
 """
 

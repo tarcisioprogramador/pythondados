@@ -13,9 +13,15 @@ font = "sans serif"
 
 [server]
 headless = true
+enableCORS = false
+enableXsrfProtection = false
+maxUploadSize = 50
+maxMessageSize = 50
 
 [client]
 toolbarMode = "minimal"
+showSidebarNavigation = false
 
 [browser]
 gatherUsageStats = false
+serverAddress = "0.0.0.0"

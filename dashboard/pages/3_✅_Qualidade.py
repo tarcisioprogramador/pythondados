@@ -141,7 +141,7 @@ fig.update_traces(
 )
 layout_base(fig, "Volume de dados por camada", altura=300)
 fig.update_xaxes(visible=False)
-st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
     "<div style='font-family:JetBrains Mono,monospace;font-size:12px;color:#64748b'>"

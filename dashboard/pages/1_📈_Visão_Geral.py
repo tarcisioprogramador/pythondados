@@ -14,6 +14,116 @@ from utils import CORES, carregar_dados, chip, fmt_brl, fmt_int, injetar_css_mob
 
 st.set_page_config(page_title="Visão Geral — DataPipeline Pro", page_icon="📈", layout="wide")
 
+
+# ---------------------------------------------------------------------------
+# Filtro + agregações cacheadas (interações instantâneas)
+# ---------------------------------------------------------------------------
+@st.cache_data(ttl=3600, show_spinner=False)
+def _visao_geral(categorias: tuple, cidades: tuple, inicio: str, fim: str) -> dict | None:
+    """Filtra as vendas e pré-agrega tudo que a página exibe.
+
+    A chave do cache são os filtros — trocar filtro recalcula uma vez,
+    e as interações seguintes respondem na hora.
+    """
+    vendas = carregar_dados()["vendas"]
+    d_inicio = pd.Timestamp(inicio).date()
+    d_fim = pd.Timestamp(fim).date()
+
+    df = vendas[
+        vendas["categoria"].isin(categorias)
+        & vendas["cidade"].isin(cidades)
+        & (vendas["data"].dt.date >= d_inicio)
+        & (vendas["data"].dt.date <= d_fim)
+    ].copy()
+
+    # Base vazia: a página mostra aviso em vez de gráficos quebrados
+    if df.empty:
+        return None
+
+    df["mes_ano"] = df["data"].dt.to_period("M")
+
+    # KPIs
+    receita = float(df["valor"].sum())
+    vendas_qtd = int(len(df))
+    ticket = receita / vendas_qtd if vendas_qtd else 0.0
+    avaliacao = df["avaliacao"].mean()
+    avaliacao = 0.0 if pd.isna(avaliacao) else float(avaliacao)
+
+    mensal = df.groupby("mes_ano")["valor"].sum()
+    delta = (
+        (mensal.iloc[-1] - mensal.iloc[-2]) / mensal.iloc[-2] * 100
+        if len(mensal) >= 2 else 0.0
+    )
+
+    # Agregações dos gráficos
+    mensal_df = (
+        df.groupby("mes_ano", as_index=False)
+        .agg(receita=("valor", "sum"), vendas=("valor", "count"))
+        .sort_values("mes_ano")
+    )
+    mensal_df["rotulo"] = mensal_df["mes_ano"].astype(str)
+
+    cat_df = (
+        df.groupby("categoria", as_index=False)
+        .agg(receita=("valor", "sum"))
+        .sort_values("receita", ascending=False)
+    )
+
+    top = (
+        df.groupby("nome", as_index=False)
+        .agg(receita=("valor", "sum"), vendas=("valor", "count"))
+        .sort_values("receita", ascending=False)
+        .head(10)
+        .iloc[::-1]
+    )
+
+    cidades_df = (
+        df.groupby(["cidade", "estado"], as_index=False)
+        .agg(receita=("valor", "sum"))
+        .sort_values("receita", ascending=False)
+        .head(8)
+        .iloc[::-1]
+    )
+    cidades_df["rotulo"] = cidades_df["cidade"] + "/" + cidades_df["estado"]
+
+    dias = df.groupby(["nome_dia_semana", "data"]).size().reset_index()
+    contagem_dias = dias.groupby("nome_dia_semana")["data"].nunique()
+    semanal = (
+        df.groupby("nome_dia_semana", as_index=False)
+        .agg(receita=("valor", "sum"))
+        .merge(contagem_dias.rename("dias"), on="nome_dia_semana")
+    )
+    ordem = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+    semanal["nome_dia_semana"] = pd.Categorical(
+        semanal["nome_dia_semana"], categories=ordem, ordered=True
+    )
+    semanal = semanal.sort_values("nome_dia_semana")
+    semanal["media_diaria"] = semanal["receita"] / semanal["dias"]
+
+    canais = (
+        df.groupby("canal", as_index=False)
+        .agg(receita=("valor", "sum"))
+        .sort_values("receita", ascending=False)
+    )
+
+    return {
+        "n_vendas": vendas_qtd,
+        "n_negocios": int(df["business_key"].nunique()),
+        "receita": receita,
+        "ticket": ticket,
+        "avaliacao": avaliacao,
+        "delta": delta,
+        "data_min": df["data"].dt.date.min(),
+        "data_max": df["data"].dt.date.max(),
+        "mensal_df": mensal_df,
+        "cat_df": cat_df,
+        "top": top,
+        "cidades_df": cidades_df,
+        "semanal": semanal,
+        "canais": canais,
+    }
+
+
 # ---------------------------------------------------------------------------
 # CSS — tema "console de operações de dados"
 # ---------------------------------------------------------------------------
@@ -61,7 +171,7 @@ st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
 injetar_css_mobile()
 
 # ---------------------------------------------------------------------------
-# Carregamento e filtros
+# Filtros (sidebar)
 # ---------------------------------------------------------------------------
 dados = carregar_dados()
 vendas: pd.DataFrame = dados["vendas"]
@@ -85,12 +195,16 @@ if isinstance(sel_periodo, tuple) and len(sel_periodo) == 2:
 else:
     inicio, fim = min_data, max_data
 
-df = vendas[
-    vendas["categoria"].isin(sel_categorias)
-    & vendas["cidade"].isin(sel_cidades)
-    & (vendas["data"].dt.date >= inicio)
-    & (vendas["data"].dt.date <= fim)
-].copy()
+# ---------------------------------------------------------------------------
+# Cálculo (cacheado por filtros)
+# ---------------------------------------------------------------------------
+res = _visao_geral(
+    tuple(sel_categorias), tuple(sel_cidades), inicio.isoformat(), fim.isoformat()
+)
+
+if res is None:
+    st.warning("Nenhum dado para os filtros selecionados. Ajuste os filtros na barra lateral.")
+    st.stop()
 
 st.sidebar.markdown("---")
 st.sidebar.caption(f"Fonte de dados: **{dados['origem']}**")
@@ -106,9 +220,9 @@ st.markdown(
 st.markdown(
     "<div class='chip-row'>"
     + chip(f"FONTE: {dados['origem'].upper()}")
-    + chip(f"PERÍODO: {df['data'].dt.date.min()} → {df['data'].dt.date.max()}")
-    + chip(f"{fmt_int(len(df))} VENDAS")
-    + chip(f"{fmt_int(df['business_key'].nunique())} NEGÓCIOS", "#A78BFA")
+    + chip(f"PERÍODO: {res['data_min']} → {res['data_max']}")
+    + chip(f"{fmt_int(res['n_vendas'])} VENDAS")
+    + chip(f"{fmt_int(res['n_negocios'])} NEGÓCIOS", "#A78BFA")
     + "</div>",
     unsafe_allow_html=True,
 )
@@ -116,32 +230,20 @@ st.markdown(
 # ---------------------------------------------------------------------------
 # KPIs
 # ---------------------------------------------------------------------------
-receita = float(df["valor"].sum())
-vendas_qtd = int(len(df))
-ticket = receita / vendas_qtd if vendas_qtd else 0
-avaliacao = df["avaliacao"].mean()
-avaliacao = 0 if pd.isna(avaliacao) else float(avaliacao)
-
-# Delta do último mês completo vs o anterior
-df["mes_ano"] = df["data"].dt.to_period("M")
-mensal = df.groupby("mes_ano")["valor"].sum()
-if len(mensal) >= 2:
-    delta = (mensal.iloc[-1] - mensal.iloc[-2]) / mensal.iloc[-2] * 100
-else:
-    delta = 0.0
-seta = "▲" if delta >= 0 else "▼"
-classe = "up" if delta >= 0 else "down"
+receita = res["receita"]
+seta = "▲" if res["delta"] >= 0 else "▼"
+classe = "up" if res["delta"] >= 0 else "down"
 delta_html = (
-    f"<div class='kpi-delta {classe}'>{seta} {abs(delta):.1f}% no último mês "
+    f"<div class='kpi-delta {classe}'>{seta} {abs(res['delta']):.1f}% no último mês "
     f"vs anterior</div>"
 )
 
 kpis = [
     ("Receita total", fmt_brl(receita), delta_html),
-    ("Vendas realizadas", fmt_int(vendas_qtd), ""),
-    ("Ticket médio", fmt_brl(ticket), ""),
-    ("Negócios ativos", fmt_int(df["business_key"].nunique()), ""),
-    ("Avaliação média", f"{avaliacao:.2f} ★", ""),
+    ("Vendas realizadas", fmt_int(res["n_vendas"]), ""),
+    ("Ticket médio", fmt_brl(res["ticket"]), ""),
+    ("Negócios ativos", fmt_int(res["n_negocios"]), ""),
+    ("Avaliação média", f"{res['avaliacao']:.2f} ★", ""),
 ]
 
 cards = "".join(
@@ -157,12 +259,7 @@ st.markdown(f"<div class='kpi-grid'>{cards}</div>", unsafe_allow_html=True)
 col1, col2 = st.columns([1.6, 1])
 
 with col1:
-    mensal_df = (
-        df.groupby("mes_ano", as_index=False)
-        .agg(receita=("valor", "sum"), vendas=("valor", "count"))
-        .sort_values("mes_ano")
-    )
-    mensal_df["rotulo"] = mensal_df["mes_ano"].astype(str)
+    mensal_df = res["mensal_df"]
     fig = px.area(
         mensal_df, x="rotulo", y="receita",
         markers=True, line_shape="spline",
@@ -173,14 +270,10 @@ with col1:
         customdata=[fmt_brl(v) for v in mensal_df["receita"]],
     )
     layout_base(fig, "📈 Receita mensal", altura=360)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 with col2:
-    cat_df = (
-        df.groupby("categoria", as_index=False)
-        .agg(receita=("valor", "sum"))
-        .sort_values("receita", ascending=False)
-    )
+    cat_df = res["cat_df"]
     fig = px.pie(
         cat_df, names="categoria", values="receita", hole=0.58,
         color_discrete_sequence=CORES,
@@ -190,7 +283,7 @@ with col2:
         customdata=[fmt_brl(v) for v in cat_df["receita"]],
     )
     layout_base(fig, "🥧 Receita por categoria", altura=360)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # ---------------------------------------------------------------------------
 # Gráficos — linha 2: ranking + cidades
@@ -198,13 +291,7 @@ with col2:
 col1, col2 = st.columns([1.6, 1])
 
 with col1:
-    top = (
-        df.groupby("nome", as_index=False)
-        .agg(receita=("valor", "sum"), vendas=("valor", "count"))
-        .sort_values("receita", ascending=False)
-        .head(10)
-        .iloc[::-1]
-    )
+    top = res["top"]
     fig = px.bar(
         top, x="receita", y="nome", orientation="h",
         color="receita", color_continuous_scale=["#16233f", "#22D3EE"],
@@ -215,17 +302,10 @@ with col1:
     )
     fig.update_coloraxes(showscale=False)
     layout_base(fig, "🏆 Top 10 negócios por receita", altura=390)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 with col2:
-    cidades_df = (
-        df.groupby(["cidade", "estado"], as_index=False)
-        .agg(receita=("valor", "sum"))
-        .sort_values("receita", ascending=False)
-        .head(8)
-        .iloc[::-1]
-    )
-    cidades_df["rotulo"] = cidades_df["cidade"] + "/" + cidades_df["estado"]
+    cidades_df = res["cidades_df"]
     fig = px.bar(
         cidades_df, x="receita", y="rotulo", orientation="h",
         color_discrete_sequence=["#A78BFA"],
@@ -235,7 +315,7 @@ with col2:
         customdata=[fmt_brl(v) for v in cidades_df["receita"]],
     )
     layout_base(fig, "📍 Receita por cidade (top 8)", altura=390)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # ---------------------------------------------------------------------------
 # Gráficos — linha 3: sazonalidade + canais
@@ -243,19 +323,7 @@ with col2:
 col1, col2 = st.columns([1.3, 1])
 
 with col1:
-    # Receita média diária por dia da semana (normaliza pela quantidade de dias)
-    dias = df.groupby(["nome_dia_semana", "data"]).size().reset_index()
-    contagem_dias = dias.groupby("nome_dia_semana")["data"].nunique()
-    semanal = (
-        df.groupby("nome_dia_semana", as_index=False)
-        .agg(receita=("valor", "sum"))
-        .merge(contagem_dias.rename("dias"), on="nome_dia_semana")
-    )
-    ordem = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
-    semanal["nome_dia_semana"] = pd.Categorical(semanal["nome_dia_semana"], categories=ordem, ordered=True)
-    semanal = semanal.sort_values("nome_dia_semana")
-    semanal["media_diaria"] = semanal["receita"] / semanal["dias"]
-
+    semanal = res["semanal"]
     fig = px.bar(
         semanal, x="nome_dia_semana", y="media_diaria",
         color_discrete_sequence=["#34D399"],
@@ -265,14 +333,10 @@ with col1:
         customdata=[fmt_brl(v) for v in semanal["media_diaria"]],
     )
     layout_base(fig, "🗓️ Sazonalidade: receita média diária por dia da semana", altura=360)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 with col2:
-    canais = (
-        df.groupby("canal", as_index=False)
-        .agg(receita=("valor", "sum"))
-        .sort_values("receita", ascending=False)
-    )
+    canais = res["canais"]
     fig = px.bar(
         canais, x="canal", y="receita",
         color="canal", color_discrete_sequence=CORES,
@@ -283,7 +347,7 @@ with col2:
     )
     fig.update_layout(showlegend=False)
     layout_base(fig, "🛒 Receita por canal de venda", altura=360)
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 st.markdown(
     "<div class='footer-note'>DataPipeline Pro · Python + SQL + PostgreSQL + Streamlit · "
