@@ -10,7 +10,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from utils import carregar_dados, chip, fmt_int, layout_base
+from utils import carregar_dados, chip, fmt_int, injetar_css_mobile, layout_base
 
 st.set_page_config(page_title="Qualidade — DataPipeline Pro", page_icon="✅", layout="wide")
 
@@ -32,6 +32,7 @@ p, li, label { color: #cbd5e1; }
 .badge-fail { color: #f87171; background: #f871711a; border: 1px solid #f8717155; border-radius: 999px; padding: 1px 10px; font-size: 11px; margin-right: 8px; }
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+injetar_css_mobile()
 
 dados = carregar_dados()
 vendas = dados["vendas"]

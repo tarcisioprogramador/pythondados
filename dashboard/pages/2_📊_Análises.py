@@ -13,7 +13,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from utils import CORES, carregar_dados, fmt_brl, fmt_int, layout_base
+from utils import CORES, carregar_dados, fmt_brl, fmt_int, injetar_css_mobile, layout_base
 
 st.set_page_config(page_title="Análises — DataPipeline Pro", page_icon="📊", layout="wide")
 
@@ -39,6 +39,7 @@ p, li, label { color: #cbd5e1; }
 .insight b { color: #7dd3fc; font-family: 'JetBrains Mono', monospace; }
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+injetar_css_mobile()
 
 dados = carregar_dados()
 vendas = dados["vendas"]

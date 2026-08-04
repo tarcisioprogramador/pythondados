@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from utils import carregar_dados, fmt_brl, fmt_int
+from utils import carregar_dados, fmt_brl, fmt_int, injetar_css_mobile
 
 st.set_page_config(
     page_title="DataPipeline Pro — Análise de Dados",
@@ -89,6 +89,7 @@ p, li { color: #cbd5e1; }
 .footer { margin-top: 54px; padding-top: 18px; border-top: 1px solid #1e293b; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #475569; text-align: center; }
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+injetar_css_mobile()
 
 # ---------------------------------------------------------------------------
 # Dados vivos (fallback se o pipeline ainda não rodou)

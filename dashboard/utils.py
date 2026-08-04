@@ -54,47 +54,71 @@ def fmt_curto(valor) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Carregamento de dados (banco → fallback CSVs processados)
+# Carregamento de dados (Parquet → banco → CSVs processados)
 # ---------------------------------------------------------------------------
-@st.cache_data(ttl=300, show_spinner="Carregando dados do pipeline...")
+@st.cache_data(ttl=86400, show_spinner="Carregando dados do pipeline...")
 def carregar_dados() -> dict:
-    """Carrega vendas + dimensões do banco, ou dos CSVs processados."""
+    """Carrega vendas + dimensões da camada processada.
+
+    Ordem de preferência (todos contêm os mesmos dados da camada gold):
+      1. Parquet  (data/processed) — leitura ~10x mais rápida (padrão)
+      2. Banco de dados            — quando o pipeline rodou com banco local
+      3. CSVs processados          — último recurso
+
+    O cache dura 24 h (os dados são estáticos em um portfólio), então a
+    primeira visita carrega rápido e as seguintes são instantâneas.
+    """
     config.garantir_diretorios()
     processado = config.DATA_PROCESSED_DIR
+
+    def _parquet(nome: str) -> pathlib.Path:
+        return processado / f"{nome}.parquet"
+
+    def _csv(nome: str) -> pathlib.Path:
+        return processado / f"{nome}.csv"
 
     origem = "CSVs processados"
     fato = dim_b = dim_c = dim_t = None
     linhagem = execucoes = None
 
-    # 1) Tenta o banco de dados (views da camada gold)
-    try:
-        from etl.database import conectar, vendor
-        engine = conectar()
-        fato = pd.read_sql("SELECT * FROM fact_sales", engine)
-        dim_b = pd.read_sql("SELECT * FROM dim_business", engine)
-        dim_c = pd.read_sql("SELECT * FROM dim_category", engine)
-        dim_t = pd.read_sql("SELECT * FROM dim_time", engine)
-        origem = f"banco de dados ({vendor(engine)})"
-        try:
-            linhagem = pd.read_sql("SELECT * FROM vw_linhagem", engine)
-            execucoes = pd.read_sql("SELECT * FROM vw_ultimas_execucoes", engine)
-        except Exception:  # noqa: BLE001 — views ainda não criadas
-            pass
-    except Exception:  # noqa: BLE001 — sem banco disponível, usa os CSVs
-        pass
+    # 1) Parquet (mais rápido) — mesmo conteúdo da camada processada
+    if _parquet("fact_sales").exists():
+        fato = pd.read_parquet(_parquet("fact_sales"))
+        dim_b = pd.read_parquet(_parquet("dim_business"))
+        dim_c = pd.read_parquet(_parquet("dim_category"))
+        dim_t = pd.read_parquet(_parquet("dim_time"))
+        origem = "camada gold · parquet"
 
-    # 2) Fallback: camada processada (data/processed)
+    # 2) Banco de dados (views da camada gold)
     if fato is None:
-        if not (processado / "fact_sales.csv").exists():
+        try:
+            from etl.database import conectar, vendor
+            engine = conectar()
+            fato = pd.read_sql("SELECT * FROM fact_sales", engine)
+            dim_b = pd.read_sql("SELECT * FROM dim_business", engine)
+            dim_c = pd.read_sql("SELECT * FROM dim_category", engine)
+            dim_t = pd.read_sql("SELECT * FROM dim_time", engine)
+            origem = f"banco de dados ({vendor(engine)})"
+            try:
+                linhagem = pd.read_sql("SELECT * FROM vw_linhagem", engine)
+                execucoes = pd.read_sql("SELECT * FROM vw_ultimas_execucoes", engine)
+            except Exception:  # noqa: BLE001 — views ainda não criadas
+                pass
+        except Exception:  # noqa: BLE001 — sem banco disponível, usa os CSVs
+            pass
+
+    # 3) CSVs processados (último recurso)
+    if fato is None:
+        if not _csv("fact_sales").exists():
             raise FileNotFoundError(
                 "Nenhum dado encontrado. Rode o pipeline primeiro:\n\n"
                 "    python scripts/generate_data.py\n"
                 "    python scripts/run_pipeline.py"
             )
-        fato = pd.read_csv(processado / "fact_sales.csv")
-        dim_b = pd.read_csv(processado / "dim_business.csv")
-        dim_c = pd.read_csv(processado / "dim_category.csv")
-        dim_t = pd.read_csv(processado / "dim_time.csv")
+        fato = pd.read_csv(_csv("fact_sales"))
+        dim_b = pd.read_csv(_csv("dim_business"))
+        dim_c = pd.read_csv(_csv("dim_category"))
+        dim_t = pd.read_csv(_csv("dim_time"))
 
     vendas = (
         fato.merge(
@@ -110,34 +134,45 @@ def carregar_dados() -> dict:
 
     # Métricas por negócio
     metricas = None
-    caminho_metricas = processado / "metricas_negocios.csv"
+    caminho_metricas = _parquet("metricas_negocios")
     if caminho_metricas.exists():
-        metricas = pd.read_csv(caminho_metricas)
+        metricas = pd.read_parquet(caminho_metricas)
+    elif _csv("metricas_negocios").exists():
+        metricas = pd.read_csv(_csv("metricas_negocios"))
 
-    # Linhagem por camada a partir dos arquivos (quando o banco está fora)
+    # Linhagem por camada (parquet: contagem vem do metadado — instantânea;
+    # CSV: varredura binária, sem decodificar o texto inteiro)
     if linhagem is None:
-        def _contar(caminho) -> int:
+        def _contar(nome: str) -> int:
+            parquet = _parquet(nome)
+            if parquet.exists():
+                try:
+                    import pyarrow.parquet as pq
+                    return pq.ParquetFile(parquet).metadata.num_rows
+                except Exception:  # noqa: BLE001
+                    pass
+            caminho = _csv(nome)
             if not caminho.exists():
                 return 0
-            with open(caminho, encoding="utf-8") as arquivo:
+            with open(caminho, "rb") as arquivo:
                 return max(sum(1 for _ in arquivo) - 1, 0)
 
-        # Camada bronze lida dos CSVs processados (stg limpos) — assim o site
+        # Camada bronze lida da camada processada (stg limpos) — assim o site
         # funciona no deploy sem depender do data/raw (regenerável pelo pipeline)
         linhagem = pd.DataFrame(
             [
                 {"camada": "bronze", "tabela": "stg_businesses",
-                 "registros": _contar(processado / "stg_businesses.csv")},
+                 "registros": _contar("stg_businesses")},
                 {"camada": "bronze", "tabela": "stg_transactions",
-                 "registros": _contar(processado / "stg_transactions.csv")},
+                 "registros": _contar("stg_transactions")},
                 {"camada": "silver", "tabela": "dim_category",
-                 "registros": _contar(processado / "dim_category.csv")},
+                 "registros": _contar("dim_category")},
                 {"camada": "silver", "tabela": "dim_time",
-                 "registros": _contar(processado / "dim_time.csv")},
+                 "registros": _contar("dim_time")},
                 {"camada": "silver", "tabela": "dim_business",
-                 "registros": _contar(processado / "dim_business.csv")},
+                 "registros": _contar("dim_business")},
                 {"camada": "gold", "tabela": "fact_sales",
-                 "registros": _contar(processado / "fact_sales.csv")},
+                 "registros": _contar("fact_sales")},
             ]
         )
 
@@ -196,3 +231,46 @@ def chip(texto: str, cor: str = "#22D3EE") -> str:
         f'letter-spacing:.5px;color:{cor};background:{cor}1a;border:1px solid {cor}55;'
         f'border-radius:999px;padding:3px 12px;margin-right:6px;">{texto}</span>'
     )
+
+
+# ---------------------------------------------------------------------------
+# CSS responsivo (mobile) — compartilhado por todas as páginas
+# ---------------------------------------------------------------------------
+CSS_MOBILE = """
+/* Empilha as colunas do Streamlit em telas pequenas */
+@media (max-width: 48em) {
+    [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
+    [data-testid="stHorizontalBlock"] > div { min-width: 100% !important; width: 100% !important; }
+
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 1rem !important;
+    }
+    .hero-titulo { font-size: 30px !important; }
+    .hero-sub { font-size: 14.5px !important; }
+    .topbar { margin-bottom: 22px; }
+
+    /* Grades de cards: 4-6 colunas viram 2 */
+    .stats-grid, .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .feature-grid, .camadas { grid-template-columns: 1fr; }
+    .kpi-value { font-size: 17px !important; }
+    .stat .v { font-size: 15px !important; }
+    .secao-titulo { font-size: 21px !important; }
+    .secao { font-size: 16px !important; }
+    .cta { flex-direction: column; }
+    .footer { font-size: 10.5px; }
+    .check-row { font-size: 12px; }
+    .empty-box { padding: 28px 14px !important; }
+}
+
+/* Telas muito estreitas: 1 coluna só */
+@media (max-width: 30em) {
+    .stats-grid, .kpi-grid { grid-template-columns: 1fr; }
+}
+"""
+
+
+def injetar_css_mobile() -> None:
+    """Aplica o CSS responsivo compartilhado (usado por todas as páginas)."""
+    st.markdown(f"<style>{CSS_MOBILE}</style>", unsafe_allow_html=True)

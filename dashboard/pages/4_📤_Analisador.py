@@ -14,7 +14,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from analisador import gerar_analise
-from utils import CORES, fmt_int, layout_base
+from utils import CORES, fmt_int, injetar_css_mobile, layout_base
 
 st.set_page_config(page_title="Analisador — DataPipeline Pro", page_icon="📤", layout="wide")
 
@@ -42,6 +42,7 @@ div[data-testid="stDataFrame"] { border: 1px solid #1e293b; border-radius: 10px;
 [data-testid="stFileUploader"] section { border: 1px dashed #22D3EE66; border-radius: 12px; background: #101829; }
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+injetar_css_mobile()
 
 st.markdown(
     "<h1 style='margin-bottom:2px'>📤 Analisador de Dados</h1>"

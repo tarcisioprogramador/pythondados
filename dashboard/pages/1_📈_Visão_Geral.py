@@ -10,7 +10,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from utils import CORES, carregar_dados, chip, fmt_brl, fmt_int, layout_base
+from utils import CORES, carregar_dados, chip, fmt_brl, fmt_int, injetar_css_mobile, layout_base
 
 st.set_page_config(page_title="Visão Geral — DataPipeline Pro", page_icon="📈", layout="wide")
 
@@ -58,6 +58,7 @@ p, li, label { color: #cbd5e1; }
 div[data-testid="stDataFrame"] { border: 1px solid #1e293b; border-radius: 10px; }
 """
 st.markdown(f"<style>{CSS}</style>", unsafe_allow_html=True)
+injetar_css_mobile()
 
 # ---------------------------------------------------------------------------
 # Carregamento e filtros
