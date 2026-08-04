@@ -2,12 +2,30 @@
 
 from __future__ import annotations
 
+import os
 import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+# ---------------------------------------------------------------------------
+# Sincroniza secrets do Streamlit Cloud → variáveis de ambiente
+# ---------------------------------------------------------------------------
+# No Streamlit Community Cloud, secrets definidos no painel (Settings →
+# Secrets) ficam disponíveis apenas via st.secrets — eles NÃO viram variáveis
+# de ambiente automaticamente. Como o etl.config lê os.getenv("DATABASE_URL"),
+# este bloco injeta os secrets no ambiente ANTES de importar o config.
+# Fora do Streamlit (pipeline local, testes) o try/except mantém tudo igual.
+try:
+    import streamlit as st
+
+    for _chave in ("DATABASE_URL", "PIPELINE_DB_ONLY", "API_URL"):
+        if _chave in st.secrets and _chave not in os.environ:
+            os.environ[_chave] = str(st.secrets[_chave])
+except Exception:  # noqa: BLE001 — sem runtime do Streamlit, segue normal
+    pass
 
 import pandas as pd
 import streamlit as st
@@ -61,8 +79,9 @@ def carregar_dados() -> dict:
     """Carrega vendas + dimensões da camada processada.
 
     Ordem de preferência (todos contêm os mesmos dados da camada gold):
-      1. Parquet  (data/processed) — leitura ~10x mais rápida (padrão)
-      2. Banco de dados            — quando o pipeline rodou com banco local
+      1. Banco de dados — quando DATABASE_URL está configurado explicitamente
+         (ex: Neon/PostgreSQL na nuvem) — demonstra o banco real no portfólio
+      2. Parquet  (data/processed) — leitura ~10x mais rápida (padrão)
       3. CSVs processados          — último recurso
 
     O cache dura 24 h (os dados são estáticos em um portfólio), então a
@@ -81,21 +100,13 @@ def carregar_dados() -> dict:
     fato = dim_b = dim_c = dim_t = None
     linhagem = execucoes = None
 
-    # 1) Parquet (mais rápido) — mesmo conteúdo da camada processada.
-    #    Se o pyarrow estiver ausente ou o arquivo corrompido, cai no
-    #    banco/CSV automaticamente (não derruba o site).
-    if _parquet("fact_sales").exists():
-        try:
-            fato = pd.read_parquet(_parquet("fact_sales"))
-            dim_b = pd.read_parquet(_parquet("dim_business"))
-            dim_c = pd.read_parquet(_parquet("dim_category"))
-            dim_t = pd.read_parquet(_parquet("dim_time"))
-            origem = "camada gold · parquet"
-        except Exception:  # noqa: BLE001 — parquet indisponível → segue para banco/CSV
-            fato = None
+    # Um DATABASE_URL explícito (diferente do default localhost) indica que o
+    # usuário configurou um banco real (ex: Neon) → prioriza o banco.
+    banco_explicito = config.DATABASE_URL not in ("", config.POSTGRES_PADRAO)
 
-    # 2) Banco de dados (views da camada gold)
-    if fato is None:
+    def _ler_banco() -> bool:
+        """Tenta ler todas as tabelas da camada gold do banco. Retorna True se ok."""
+        nonlocal fato, dim_b, dim_c, dim_t, linhagem, execucoes, origem
         try:
             from etl.database import conectar, vendor
             engine = conectar()
@@ -109,8 +120,31 @@ def carregar_dados() -> dict:
                 execucoes = pd.read_sql("SELECT * FROM vw_ultimas_execucoes", engine)
             except Exception:  # noqa: BLE001 — views ainda não criadas
                 pass
-        except Exception:  # noqa: BLE001 — sem banco disponível, usa os CSVs
-            pass
+            return True
+        except Exception:  # noqa: BLE001 — sem banco disponível, segue para parquet/CSV
+            fato = None
+            return False
+
+    # 1) Banco de dados primeiro, quando configurado explicitamente (ex: Neon)
+    if banco_explicito:
+        _ler_banco()
+
+    # 2) Parquet (mais rápido) — mesmo conteúdo da camada processada.
+    #    Se o pyarrow estiver ausente ou o arquivo corrompido, cai no
+    #    banco/CSV automaticamente (não derruba o site).
+    if fato is None and _parquet("fact_sales").exists():
+        try:
+            fato = pd.read_parquet(_parquet("fact_sales"))
+            dim_b = pd.read_parquet(_parquet("dim_business"))
+            dim_c = pd.read_parquet(_parquet("dim_category"))
+            dim_t = pd.read_parquet(_parquet("dim_time"))
+            origem = "camada gold · parquet"
+        except Exception:  # noqa: BLE001 — parquet indisponível → segue para banco/CSV
+            fato = None
+
+    # 3) Banco de dados como fallback (quando não foi priorizado acima)
+    if fato is None and not banco_explicito:
+        _ler_banco()
 
     # 3) CSVs processados (último recurso)
     if fato is None:
