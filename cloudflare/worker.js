@@ -2,19 +2,20 @@
 // DataPipeline Pro — Cloudflare Worker
 // ------------------------------------------------------------
 // Serve uma página que embute o app Streamlit em um iframe,
-// mantendo o domínio (ex: https://datapipeline.eu.org) na barra
+// mantendo o domínio (ex: https://datapipeline.mooo.com) na barra
 // de endereços do navegador.
 //
 // Como o Streamlit Community Cloud NÃO aceita domínio próprio
 // (recurso pago do "Streamlit for Teams"), este Worker mascara
 // a URL final via iframe — grátis e confiável.
 //
-// Passos:
+// Passos (detalhes no GUIA-FREEDNS.md):
 //   1. Troque STREAMLIT_APP pela URL real do seu app publicado.
 //   2. Suba este arquivo no Cloudflare (Workers & Pages → Create
-//      Worker → cole o código → Deploy).
-//   3. Crie uma "Route" ligando seu domínio ao Worker:
-//        datapipeline.eu.org/*  →  [Worker nome]
+//      Worker → cole o código → Deploy) e anote a URL workers.dev.
+//   3. No FreeDNS (freedns.afraid.org), aponte seu subdomínio com
+//      um registro CNAME para a URL do Worker:
+//        datapipeline.mooo.com  →  SEU-WORKER.workers.dev
 // ============================================================
 
 // 🔁 URL real do seu app publicado no Streamlit Cloud
