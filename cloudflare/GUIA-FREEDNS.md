@@ -24,7 +24,7 @@
 3. Escolha um domínio público disponível (ex: **mooo.com** — é o mais famoso)
    e preencha:
    - **Subdomain:** `datapipeline`
-   - **Destination:** a URL do seu site (ex: `pythondados.streamlit.app`)
+   - **Destination:** a URL do seu site (`https://phytondados-zdlc48iorffpy5az9uy5hw.streamlit.app`)
    - **Type:** `URL` (redirecionamento) — ou `CNAME` para o Cloudflare Worker
 4. Clique em **Save!** — pronto, o domínio já funciona. ✅
 
@@ -34,7 +34,7 @@
 
 Se você escolheu **Type: URL** no passo 2, o FreeDNS redireciona sozinho:
 
-- `https://datapipeline.mooo.com` → redireciona para `https://pythondados.streamlit.app`
+- `https://datapipeline.mooo.com` → redireciona para `https://phytondados-zdlc48iorffpy5az9uy5hw.streamlit.app`
 - O visitante vê o seu site, mas a **URL do navegador muda** para `streamlit.app`
 - **Prós:** zero configuração extra · **Contras:** o domínio "some" na barra de endereços
 
@@ -60,7 +60,7 @@ deste projeto:
 3. Cole o conteúdo de **`cloudflare/worker.js`**.
 4. **Verifique** a linha (deve ter sua URL real):
    ```js
-   const STREAMLIT_APP = "https://pythondados.streamlit.app";
+   const STREAMLIT_APP = "https://phytondados-zdlc48iorffpy5az9uy5hw.streamlit.app";
    ```
 5. Clique em **Deploy**. Anote a URL do Worker:
    `https://SEU-WORKER-SUBDOMINIO.workers.dev`
@@ -87,7 +87,7 @@ O app **ainda não está publicado** no Streamlit Cloud (o site retorna
 1. [share.streamlit.io](https://share.streamlit.io) → **New app**
 2. Repository: `tarcisioprogramador/pythondados` · Branch: `main` ·
    Main file: `streamlit_app.py`
-3. **Deploy** → anote a URL real (ex: `https://pythondados.streamlit.app`)
+3. **Deploy** → anote a URL real (ex: `https://phytondados-zdlc48iorffpy5az9uy5hw.streamlit.app`)
 
 Sem isso, o redirecionamento apontará para um site que não existe.
 

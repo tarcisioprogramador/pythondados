@@ -19,7 +19,7 @@
 // ============================================================
 
 // 🔁 URL real do seu app publicado no Streamlit Cloud
-const STREAMLIT_APP = "https://pythondados.streamlit.app";
+const STREAMLIT_APP = "https://phytondados-zdlc48iorffpy5az9uy5hw.streamlit.app";
 
 // URL embutível (embed=true remove a barra superior e o menu do Streamlit)
 const EMBED_URL = `${STREAMLIT_APP}/?embed=true&embed_options=show_toolbar,show_padding,show_colored_line`;
