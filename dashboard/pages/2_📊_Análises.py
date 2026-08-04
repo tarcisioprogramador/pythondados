@@ -370,6 +370,8 @@ with col2:
     fig.update_traces(
         hovertemplate="%{label}<br><b>%{customdata}</b> · %{percent}<extra></extra>",
         customdata=[fmt_brl(v) for v in pagamentos["valor"]],
+        # Sem texto sobre as fatias (nomes/percentuais) — só no hover
+        textinfo="none",
     )
     layout_base(fig, "💳 Receita por forma de pagamento", altura=360)
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})

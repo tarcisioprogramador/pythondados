@@ -281,6 +281,8 @@ with col2:
     fig.update_traces(
         hovertemplate="%{label}<br><b>%{customdata}</b> · %{percent}<extra></extra>",
         customdata=[fmt_brl(v) for v in cat_df["receita"]],
+        # Sem texto sobre as fatias (nomes/percentuais) — só no hover
+        textinfo="none",
     )
     layout_base(fig, "🥧 Receita por categoria", altura=360)
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
@@ -342,8 +344,9 @@ with col2:
         color="canal", color_discrete_sequence=CORES,
     )
     fig.update_traces(
-        hovertemplate="%{x}<br><b>%{customdata}</b> · %{y:.0%}<extra></extra>",
-        customdata=[f"{v / receita:.1%}" for v in canais["receita"]],
+        hovertemplate="%{x}<br><b>%{customdata[0]}</b> · <b>%{customdata[1]}</b><extra></extra>",
+        customdata=list(zip([fmt_brl(v) for v in canais["receita"]],
+                            [f"{v / receita:.1%}" for v in canais["receita"]])),
     )
     fig.update_layout(showlegend=False)
     layout_base(fig, "🛒 Receita por canal de venda", altura=360)

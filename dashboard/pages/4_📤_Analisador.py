@@ -215,7 +215,7 @@ if analise["categorias"]:
             color="contagem", color_continuous_scale=["#16233f", "#A78BFA"],
         )
         fig.update_traces(
-            hovertemplate="%{y}<br><b>%{customdata}</b> registros · %{x:.1%}<extra></extra>",
+            hovertemplate="%{y}<br><b>%{customdata}</b> registros<extra></extra>",
             customdata=[fmt_int(v) for v in top["contagem"]],
         )
         fig.update_coloraxes(showscale=False)
@@ -229,6 +229,8 @@ if analise["categorias"]:
         )
         fig.update_traces(
             hovertemplate="%{label}<br><b>%{value:,}</b> · %{percent}<extra></extra>",
+            # Sem texto sobre as fatias (nomes/percentuais) — só no hover
+            textinfo="none",
         )
         layout_base(fig, "Distribuição", altura=380)
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
