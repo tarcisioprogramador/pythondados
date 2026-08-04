@@ -81,13 +81,18 @@ def carregar_dados() -> dict:
     fato = dim_b = dim_c = dim_t = None
     linhagem = execucoes = None
 
-    # 1) Parquet (mais rápido) — mesmo conteúdo da camada processada
+    # 1) Parquet (mais rápido) — mesmo conteúdo da camada processada.
+    #    Se o pyarrow estiver ausente ou o arquivo corrompido, cai no
+    #    banco/CSV automaticamente (não derruba o site).
     if _parquet("fact_sales").exists():
-        fato = pd.read_parquet(_parquet("fact_sales"))
-        dim_b = pd.read_parquet(_parquet("dim_business"))
-        dim_c = pd.read_parquet(_parquet("dim_category"))
-        dim_t = pd.read_parquet(_parquet("dim_time"))
-        origem = "camada gold · parquet"
+        try:
+            fato = pd.read_parquet(_parquet("fact_sales"))
+            dim_b = pd.read_parquet(_parquet("dim_business"))
+            dim_c = pd.read_parquet(_parquet("dim_category"))
+            dim_t = pd.read_parquet(_parquet("dim_time"))
+            origem = "camada gold · parquet"
+        except Exception:  # noqa: BLE001 — parquet indisponível → segue para banco/CSV
+            fato = None
 
     # 2) Banco de dados (views da camada gold)
     if fato is None:
@@ -136,8 +141,11 @@ def carregar_dados() -> dict:
     metricas = None
     caminho_metricas = _parquet("metricas_negocios")
     if caminho_metricas.exists():
-        metricas = pd.read_parquet(caminho_metricas)
-    elif _csv("metricas_negocios").exists():
+        try:
+            metricas = pd.read_parquet(caminho_metricas)
+        except Exception:  # noqa: BLE001
+            metricas = None
+    if metricas is None and _csv("metricas_negocios").exists():
         metricas = pd.read_csv(_csv("metricas_negocios"))
 
     # Linhagem por camada (parquet: contagem vem do metadado — instantânea;
