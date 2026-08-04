@@ -18,17 +18,19 @@ if str(ROOT) not in sys.path:
 # de ambiente automaticamente. Como o etl.config lê os.getenv("DATABASE_URL"),
 # este bloco injeta os secrets no ambiente ANTES de importar o config.
 # Fora do Streamlit (pipeline local, testes) o try/except mantém tudo igual.
-try:
-    import streamlit as st
+import pandas as pd
+import streamlit as st
 
+# Sincroniza secrets do Streamlit Cloud → variáveis de ambiente. No Streamlit
+# Community Cloud, secrets do painel ficam só em st.secrets (não viram env vars
+# automaticamente). Como etl.config lê os.getenv("DATABASE_URL"), injetamos aqui
+# ANTES de importar o config. Fora do runtime do Streamlit, o try/except segue.
+try:
     for _chave in ("DATABASE_URL", "PIPELINE_DB_ONLY", "API_URL"):
         if _chave in st.secrets and _chave not in os.environ:
             os.environ[_chave] = str(st.secrets[_chave])
 except Exception:  # noqa: BLE001 — sem runtime do Streamlit, segue normal
     pass
-
-import pandas as pd
-import streamlit as st
 
 from etl import config
 

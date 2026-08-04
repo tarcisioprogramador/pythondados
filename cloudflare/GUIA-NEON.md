@@ -51,7 +51,11 @@ Ao final, o log deve mostrar conexão com o Neon (`banco de dados conectado`).
 3. Cole (substitua pela SUA connection string):
    ```toml
    DATABASE_URL = "postgresql+psycopg://USER:PASSWORD@HOST.neon.tech/datapipeline?sslmode=require"
+   PIPELINE_DB_ONLY = "1"
    ```
+   > `PIPELINE_DB_ONLY=1` faz o app tentar **apenas** o PostgreSQL (sem o
+   > fallback para SQLite local) — falha rápido e cai para os parquet se o
+   > Neon estiver fora. Evita ~4s de timeout extra na primeira carga.
 4. Clique em **Save**. O app reinicia automaticamente.
 
 ---
@@ -80,6 +84,6 @@ Ao final, o log deve mostrar conexão com o Neon (`banco de dados conectado`).
 | Sintoma | Causa / Solução |
 |---|---|
 | `sslmode` ausente na string | Adicione `?sslmode=require` ao final da DATABASE_URL |
-| Timeout ao conectar | O banco está dormindo → espere e recarregue; ou verifique o host |
+| Timeout ao conectar | O banco está dormindo (autosuspend) → a primeira carga após a pausa leva ~4s a mais e acorda sozinho; recarregue se necessário |
 | Senha com caracteres especiais | Encode: `@` vira `%40`, `#` vira `%23`, `:` vira `%3A` |
 | Dashboard mostra "parquet" | O Neon não está acessível ou vazio — o fallback funcionou como esperado |
