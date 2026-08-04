@@ -67,6 +67,12 @@
 - O app Streamlit permite iframe por padrão (seu `config.toml` já tem
   `enableCORS = false` e `enableXsrfProtection = false`, o que facilita).
 
+> ⚠️ **Expectativa realista:** o "máscara" é **cosmético**. Quem inspecionar o
+> HTML da página (Ctrl+U / DevTools) vai ver a URL `*.streamlit.app` dentro do
+> iframe. Para portfólio isso é suficiente — o visitante vê seu domínio na
+> barra de endereços, mas o endereço real continua acessível. Não use essa
+> técnica se precisar esconder a infraestrutura de verdade.
+
 ---
 
 ## Alternativa: redirecionamento simples (301)

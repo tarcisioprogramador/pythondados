@@ -32,7 +32,8 @@ const HTML = `<!DOCTYPE html>
 <style>
   :root { color-scheme: dark; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; background: #0b1120; }
+  /* 100dvh acompanha a viewport real no mobile (barra de endereço); 100% é o fallback */
+  html, body { height: 100%; height: 100dvh; background: #0b1120; overflow: hidden; }
   body { display: flex; flex-direction: column; }
   /* Barra fina com o domínio próprio (opcional) */
   .barra {
@@ -68,6 +69,9 @@ export default {
       headers: {
         "content-type": "text/html; charset=utf-8",
         "cache-control": "no-store",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "no-referrer",
+        "content-security-policy": "frame-ancestors 'self'",
       },
     });
   },
