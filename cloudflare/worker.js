@@ -17,8 +17,8 @@
 //        datapipeline.eu.org/*  →  [Worker nome]
 // ============================================================
 
-// 🔁 ALTERE AQUI para a URL real do seu app (após o deploy no Streamlit Cloud)
-const STREAMLIT_APP = "https://datapipeline-pro.streamlit.app";
+// 🔁 URL real do seu app publicado no Streamlit Cloud
+const STREAMLIT_APP = "https://pythondados.streamlit.app";
 
 // URL embutível (embed=true remove a barra superior e o menu do Streamlit)
 const EMBED_URL = `${STREAMLIT_APP}/?embed=true&embed_options=show_toolbar,show_padding,show_colored_line`;
